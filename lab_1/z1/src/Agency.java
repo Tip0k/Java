@@ -3,8 +3,7 @@ import java.util.Random;
 /**
  * Created by PEOPLE on 06.02.2017.
  */
-public class z1_Agency {
-
+public class Agency {
     public static void main(String[] args) {
 
         Person[] Persons = new Person[]{
