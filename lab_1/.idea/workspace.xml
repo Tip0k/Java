@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3e44347-45f3-4cfd-b7bf-433756050b33" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/z2/src/PrintPrice.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/z2/src/Interfaces.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/z2/src/Car.java" afterPath="$PROJECT_DIR$/z2/src/Car.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/z2/src/Computer.java" afterPath="$PROJECT_DIR$/z2/src/Computer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/z2/src/Horse.java" afterPath="$PROJECT_DIR$/z2/src/Horse.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/z2/src/Phone.java" afterPath="$PROJECT_DIR$/z2/src/Phone.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/z2/src/Shop.java" afterPath="$PROJECT_DIR$/z2/src/Shop.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,8 +29,8 @@
       <file leaf-file-name="Car.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/z2/src/Car.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="38" column="5" lean-forward="true" selection-start-line="24" selection-start-column="4" selection-end-line="38" selection-end-column="5" />
+            <state relative-caret-position="180">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -36,8 +39,8 @@
       <file leaf-file-name="Horse.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/z2/src/Horse.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="18" column="32" lean-forward="true" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+            <state relative-caret-position="57">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -46,8 +49,8 @@
       <file leaf-file-name="Computer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/z2/src/Computer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+            <state relative-caret-position="180">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -56,18 +59,18 @@
       <file leaf-file-name="Phone.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/z2/src/Phone.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="14" column="16" lean-forward="false" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+            <state relative-caret-position="117">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Shop.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Shop.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/z2/src/Shop.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="11" column="47" lean-forward="false" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
+            <state relative-caret-position="237">
+              <caret line="88" column="38" lean-forward="false" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -75,7 +78,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrintPrice.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PrintPrice.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/z2/src/PrintPrice.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="80">
@@ -138,13 +141,13 @@
         <option value="$PROJECT_DIR$/z1/src/Agency.java" />
         <option value="$PROJECT_DIR$/z2/src/Market.java" />
         <option value="$PROJECT_DIR$/z2/src/Main.java" />
-        <option value="$PROJECT_DIR$/z2/src/Car.java" />
-        <option value="$PROJECT_DIR$/z2/src/Computer.java" />
-        <option value="$PROJECT_DIR$/z2/src/Phone.java" />
-        <option value="$PROJECT_DIR$/z2/src/Horse.java" />
         <option value="$PROJECT_DIR$/z2/src/Interfaces.java" />
         <option value="$PROJECT_DIR$/z2/src/PrintPrice.java" />
         <option value="$PROJECT_DIR$/z2/src/Product.java" />
+        <option value="$PROJECT_DIR$/z2/src/Car.java" />
+        <option value="$PROJECT_DIR$/z2/src/Computer.java" />
+        <option value="$PROJECT_DIR$/z2/src/Horse.java" />
+        <option value="$PROJECT_DIR$/z2/src/Phone.java" />
         <option value="$PROJECT_DIR$/z2/src/Shop.java" />
       </list>
     </option>
@@ -737,7 +740,7 @@
       <workItem from="1486377005317" duration="6422000" />
       <workItem from="1486383597818" duration="193000" />
       <workItem from="1486383849785" duration="6682000" />
-      <workItem from="1486461957466" duration="6399000" />
+      <workItem from="1486461957466" duration="8385000" />
     </task>
     <task id="LOCAL-00001" summary="Half of z2">
       <created>1486395443691</created>
@@ -760,11 +763,18 @@
       <option name="project" value="LOCAL" />
       <updated>1486473006568</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Next of z2">
+      <created>1486473900421</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1486473900421</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19696000" />
+    <option name="totallyTimeSpent" value="21682000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
@@ -816,7 +826,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="9" />
+      <option name="time" value="10" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -963,34 +973,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_111/src.zip!/java/util/Random.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6293">
-          <caret line="132" column="28" lean-forward="true" selection-start-line="132" selection-start-column="28" selection-end-line="132" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/z2/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/z2/src/Phone.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="16" lean-forward="false" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/z2/src/Horse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="18" column="32" lean-forward="true" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -1003,22 +989,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/z2/src/Computer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/z2/src/Car.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="38" column="5" lean-forward="true" selection-start-line="24" selection-start-column="4" selection-end-line="38" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/z2/src/Product.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1027,13 +997,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/z2/src/Shop.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_111/src.zip!/java/util/Random.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="47" lean-forward="false" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-6293">
+          <caret line="132" column="28" lean-forward="true" selection-start-line="132" selection-start-column="28" selection-end-line="132" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1042,6 +1010,48 @@
         <state relative-caret-position="80">
           <caret line="4" column="6" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/z2/src/Car.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/z2/src/Computer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/z2/src/Horse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/z2/src/Phone.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/z2/src/Shop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="88" column="38" lean-forward="false" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
