@@ -2,13 +2,22 @@
  * Created by PEOPLE on 06.02.2017.
  */
 public class Car {
-    public Car(String name, double price, String info){
-        if(name.length() > 3) {
-            if(price > 0){
+    public Car(String name, double price) {
+        if (name.length() > 3) {
+            if (price >= 0) {
                 this.name = name;
                 this.price = price;
-                if(info != "") this.info = info;
-                else info = "NAAI";
+                this.info = "NAAI";
+            } else throw new Error("Price incorrect.");
+        } else throw new Error("Name is too short.");
+    }
+
+    public Car(String name, double price, String info){
+        if(name.length() > 3) {
+            if(price >= 0){
+                this.name = name;
+                this.price = price;
+                this.info = info;
             } else throw new Error("Price incorrect.");
         } else throw new Error("Name is too short.");
     }
@@ -23,10 +32,6 @@ public class Car {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setPrice(double price) {
