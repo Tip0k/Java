@@ -1,4 +1,5 @@
-package abstractClass;
+//import abstractClass.Gear;
+import interfaceClass.Gear;
 
 import java.util.ArrayList;
 import java.util.Random;
