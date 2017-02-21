@@ -1,72 +1,82 @@
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Created by PEOPLE on 06.02.2017.
  */
 public class Agency {
-    public static void main(String[] args) {
+    public Agency(String name) {
+        this.name = name;
+        couples = new ArrayList<>();
+        id = 1;
+    }
 
-        Person[] Persons = new Person[]{
-                new Person("Tom1", true),
-                new Person("Tom2", true),
-                new Person("Tom3", true),
-                new Person("Tom4", true),
-                new Person("Tom5", true),
+    private static int id;
+    private String name;
+    private ArrayList<Couple> couples;
 
-                new Person("Janifer1", false),
-                new Person("Janifer2", false),
-                new Person("Janifer3", false),
-                new Person("Janifer4", false),
-                new Person("Janifer5", false),
-                new Person("Janifer6", false)
-        };
+    protected boolean registerNewCouple(Person husband, Person wife) {
+        if (husband != null && wife != null) {
+            if (husband.getSex() == true && wife.getSex() == false) {
+                couples.add(new Couple(husband, wife, this.id++));
+                return true;
+            } else return false;
+        } else return false;
+    }
 
-        int CountOfPairs = 0;
-        for (int i = 0; i < Persons.length; i++) {
-            if (Persons[i].getSex() == true) CountOfPairs++;
+    protected boolean divorceCouple(int id) {
+        for (Couple i: couples) {
+            if(i.getId() == id) {
+                couples.remove(i);
+                return true;
+            }
         }
+        return false;
+    }
 
-        Random opa = new Random();
-        Couple[] Couples = new Couple[CountOfPairs];
-        String[] temp = new String[CountOfPairs * 2];
+    protected void showCouples() {
+        if(couples.size() > 0) System.out.println("--Registered couples--");
+        else System.out.println("--no one--");
+        for(Couple i : couples) {
+            System.out.println(i.getId() + ": " + i.getHusband().getName() + " " + i.getWife().getName());
+        }
+    }
 
-        for (int i = 0; i < CountOfPairs; i++) {
+    public void run() {
+        System.out.println("Welcome to " + this.name + " agency!");
+        showCouples();
+        System.out.println("Type [husband]#[wife] and press Enter to register new couple.");
+        System.out.println("Type -[couple id] and press Enter to divorce couple.");
 
-            int hus = 0, wi = 0;
-
-            for (int j = 0; ; j++) {
-                hus = opa.nextInt(Persons.length);
-                if (Persons[hus].getSex() == true) {
-                    for (int k = 0; k < CountOfPairs * 2; k++) {
-                        if (temp[k] == Persons[hus].getName()) {
-                            hus = -1;
-                            break;
-                        }
-                    }
-                    if (hus == -1) continue;
-                    else break;
+        Scanner sc = new Scanner(System.in);
+        try {
+            String tmp = sc.next();
+            if (tmp.toCharArray()[0] == '-') {
+                if(divorceCouple(Integer.parseInt(tmp)*(-1))) {
+                    System.out.println("Divorced");
+                } else {
+                    System.out.println("Error");
+                }
+            } else {
+                String[] pair = tmp.split("#", 2);
+                if(pair.length < 2) throw new Error("Error");
+                if(pair[0].length() < 3 || pair[1].length() < 3) throw new Error("Name is too short.");
+                else if(registerNewCouple(new Person(pair[0], true), new Person(pair[1], false))){
+                    System.out.println("Registered!");
+                } else {
+                    System.out.println("Error.");
                 }
             }
-
-            for (int j = 0; ; j++) {
-                wi = opa.nextInt(Persons.length);
-                if (Persons[wi].getSex() == false) {
-                    for (int k = 0; k < CountOfPairs * 2; k++) {
-                        if (temp[k] == Persons[wi].getName()) {
-                            wi = -1;
-                            break;
-                        }
-                    }
-                    if (wi == -1) continue;
-                    else break;
-                }
+        } catch (Error ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            while (true) {
+                System.out.println("Continue? [Y/N]");
+                String temp = sc.next();
+                if (temp.equals("Y") || temp.equals("y")) run();
+                else if(temp.equals("N") || temp.equals("n")) return;
             }
-
-            temp[temp.length - i - 1] = Persons[hus].getName();
-            temp[temp.length - CountOfPairs - i - 1] = Persons[wi].getName();
-            Couples[i] = new Couple(Persons[hus], Persons[wi]);
-
-            System.out.println(Couples[i].getHusband().getName() + " " + Couples[i].getWife().getName() + "\r\n");
         }
     }
 }

@@ -3,75 +3,32 @@ import java.util.ArrayList;
 /**
  * Created by PEOPLE on 06.02.2017.
  */
-public class Shop implements PrintPrice {
-    @Override
-    public void printPriceOfAll() {
-        if(Cars.size() > 0) {
-            System.out.println("\r\nPrices of Cars");
-            for (int j = 0; j < Cars.size(); j++) {
-                System.out.printf("%10s %-10s %10s %-10.2f %n",
-                        "Name: ", Cars.get(j).getName(), "Price: ", Cars.get(j).getPrice());
-            }
-        }
-        if(Computers.size() > 0) {
-            System.out.println("\r\nPrices of Computers");
-            for (int j = 0; j < Computers.size(); j++) {
-                System.out.printf("%10s %-10s %10s %-10.2f %n",
-                        "Name: ", Computers.get(j).getName(), "Price: ", Computers.get(j).getPrice());
-            }
-        }
-        if(Horses.size() > 0) {
-            System.out.println("\r\nPrices of Horses");
-            for (int j = 0; j < Horses.size(); j++) {
-                System.out.printf("%10s %-10s %10s %-10.2f %n",
-                        "Name: ", Horses.get(j).getName(), "Price: ", Horses.get(j).getPrice());
-            }
-        }
-        if(Phones.size() > 0) {
-            System.out.println("\r\nPrices of Phones");
-            for (int j = 0; j < Phones.size(); j++) {
-                System.out.printf("%10s %-10s %10s %-10.2f %n",
-                        "Name: ", Phones.get(j).getName(), "Price: ", Phones.get(j).getPrice());
-            }
-        }
-    }
-
+public class Shop {
     public Shop(String name){
         this.name = name;
-        Cars = new ArrayList<Car>();
-        Computers = new ArrayList<Computer>();
-        Horses = new ArrayList<Horse>();
-        Phones = new ArrayList<Phone>();
+        products = new ArrayList<>();
     }
 
     private String name;
-    private ArrayList<Car> Cars;
-    private ArrayList<Computer> Computers;
-    private ArrayList<Horse> Horses;
-    private ArrayList<Phone> Phones;
+    private ArrayList<Product> products;
 
-    public void add(Object some) {
-        try {
-            if(some instanceof Car) {
-                Cars.add((Car)some);
-            } else if(some instanceof Computer) {
-                Computers.add((Computer)some);
-            } else if(some instanceof Horse) {
-                Horses.add((Horse)some);
-            } else if(some instanceof Phone){
-                Phones.add((Phone)some);
-            }
-        } catch (Exception e) {
-            return;
+    public void add(Product some) {
+        products.add(some);
+    }
+
+    public void printPriceOfAll() {
+        System.out.println("\r\n--All prices--");
+        for (int j = 0; j < products.size(); j++) {
+            System.out.printf("%10s %-10s %10s %-10.2f %n",
+                    "Name: ", products.get(j).getName(), "Price: ", products.get(j).getPrice());
         }
     }
 
     public void printGoodsInfo() {
-        String info = "\nAll kinds of available production:\n";
-        if(Cars.size() > 0) info += " Cars\n";
-        if(Computers.size() > 0) info += " Computers\n";
-        if(Horses.size() > 0) info += " Horses\n";
-        if(Phones.size() > 0) info += " Phones\n";
+        String info = "--GoodsInfo--\r\n";
+        for (int i = 0; i < products.size(); i++) {
+            info += products.get(i).toString() + "\r\n";
+        }
         System.out.println(info);
     }
 

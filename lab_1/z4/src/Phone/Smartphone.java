@@ -71,7 +71,7 @@ public class Smartphone {
 
     public App useApp(String appName) {
         for (App tmp : installedApps) {
-            if (tmp.getName() == appName) {
+            if (tmp.getName().equals(appName)) {
                 if (!battery.changeCurrentCharge(-tmp.getPOWER_CONSUMPTION())) {
                     return null;
                 } else {
@@ -101,8 +101,8 @@ public class Smartphone {
         return Contacts.delContact(contactName);
     }
 
-    public class Contacts {
-        private static final int POWER_CONSUMPTION = 15;
+    private class Contacts {
+        public static final int POWER_CONSUMPTION = 15;
 
         private boolean addContact(Contact contact) {
             if (sdCard.Contacts.size() < sdCard.MAX_CountOfContacts) {
@@ -149,7 +149,7 @@ public class Smartphone {
     }
 
     private class Phone {
-        private static final int POWER_CONSUMPTION = 30;
+        public static final int POWER_CONSUMPTION = 30;
 
         private boolean checkSim(char sim1or2) {
             boolean tmp = false;

@@ -1,7 +1,7 @@
 /**
  * Created by PEOPLE on 06.02.2017.
  */
-public class Horse {
+public class Horse implements Product {
     public Horse(String name, double price) {
         if (name.length() > 3) {
             if (price >= 0) {
@@ -15,15 +15,23 @@ public class Horse {
     private String name;
     private double price;
 
+    @Override
     public double getPrice() {
         return price;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "class: " + getClass().getName() + ", name: " + getName() + ", price: " + getPrice();
     }
 }

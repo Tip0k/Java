@@ -12,8 +12,8 @@ public abstract class Product {
         this.className = product.getClassName();
     }
 
-    String name;
-    String className;
+    private String name;
+    protected String className;
 
     public String getName() {
         return this.name;
