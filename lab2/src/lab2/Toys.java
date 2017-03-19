@@ -1,18 +1,17 @@
 package lab2;
 
-import java.awt.Dimension;
-import javafx.scene.control.ToggleButton;
-import javax.swing.JInternalFrame;
-import java.awt.Insets; 
-import java.awt.Component; 
-import java.awt.Frame;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.Insets;
+import java.awt.event.*;
+import java.net.URL;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author PEOPLE
@@ -24,6 +23,7 @@ public class Toys extends javax.swing.JFrame {
      */
     public Toys() {
         initComponents();
+        addPaneListener();               
     }
 
     /**
@@ -50,6 +50,8 @@ public class Toys extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Іграшки");
+        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jToolBar1.setAutoscrolls(true);
         jToolBar1.setBorderPainted(false);
@@ -61,9 +63,6 @@ public class Toys extends javax.swing.JFrame {
         jToggleButton1.setToolTipText("");
         jToggleButton1.setFocusable(false);
         jToggleButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButton1.setMaximumSize(null);
-        jToggleButton1.setMinimumSize(null);
-        jToggleButton1.setPreferredSize(null);
         jToggleButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,70 +132,145 @@ public class Toys extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    JInternalFrame jfrAdd;    
+    
+    public void setComponent(JInternalFrame jfr, GridBagLayout gbl, GridBagConstraints gbc,
+            Component c, int row, int col, int nrow, int ncol) { 
+      gbc.gridx = col; 
+      gbc.gridy = row; 
+      gbc.gridwidth = ncol ; 
+      gbc.gridheight = nrow; 
+      gbl.setConstraints(c, gbc); 
+      jfr.add(c);
+    }
+    
+    JInternalFrame jfrAdd;
+    JLabel labName;
+    JTextField textName;
+    JLabel labPrice;
+    JTextField textPrice;
+    JLabel labAge;
+    JComboBox<String> comboAge;
+    JLabel labAttribute;
+    JTextArea textAttribute;
+    JLabel labPicture;
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        if(jToggleButton1.isSelected()) {           
-            jfrAdd = new JInternalFrame("Додавання іграшки");            
-            jfrAdd.setResizable(true);            
-            jDesktopPane1.add(jfrAdd);
-            
-            Insets insets = jDesktopPane1.getInsets();
-            jfrAdd.setPreferredSize(new Dimension(500, 500));
-            Dimension size = jfrAdd.getPreferredSize();
-            
-            jfrAdd.setBounds(10 + insets.left, 10 + insets.top, 
-                             size.width + 50, size.height + 20);
-            
-            jfrAdd.setVisible(true);
+        if (jToggleButton1.isSelected()) {
+            if (jfrAdd != null) {
+                jfrAdd.show();
+            } else {
+                jfrAdd = new JInternalFrame("Додати іграшку");
+                jfrAdd.setName("jfrAdd");
+                jfrAdd.setResizable(true);
+                jfrAdd.setClosable(true);
+                GridBagLayout gbl = new GridBagLayout();
+                GridBagConstraints c = new GridBagConstraints();
+                jfrAdd.setLayout(gbl);
+                
+                labName = new JLabel("Назва іграшки:");
+                c.anchor = GridBagConstraints.NORTHWEST; 
+                c.fill = GridBagConstraints.NONE;
+                c.insets = new Insets(0, 10, 0, 0);    
+                setComponent(jfrAdd, gbl, c, labName, 0, 0, 1, 1);
+                
+                textName = new JTextField(5);
+                setComponent(jfrAdd, gbl, c, textName, 0, 1, 1, 1);
+                
+                labPrice = new JLabel("Ціна іграшки:");
+                setComponent(jfrAdd, gbl, c, labPrice, 1, 0, 1, 1);
+                
+                textPrice = new JTextField(5);
+                setComponent(jfrAdd, gbl, c, textPrice, 1, 1, 1, 1);
+                
+                labAge = new JLabel("Вікові межі:");
+                setComponent(jfrAdd, gbl, c, labAge, 2, 0, 1, 1);
+                
+                String[] defaultAgeLimits = new String[] {
+                    "0-3",
+                    "3-5",
+                    "5-8",
+                    "5+",
+                    "10+"
+                };
+                comboAge = new JComboBox<>(defaultAgeLimits);
+                setComponent(jfrAdd, gbl, c, comboAge, 2, 1, 1, 1);
+                
+                labAttribute = new JLabel("Додаткова інф.:");
+                setComponent(jfrAdd, gbl, c, labAttribute, 3, 0, 2, 1);
+
+                textAttribute = new JTextArea(2, 5);
+                setComponent(jfrAdd, gbl, c, textAttribute, 3, 1, 2, 1);
+                
+                labPicture = new JLabel(new ImageIcon("images/ico.jpeg","Not found"));
+                setComponent(jfrAdd, gbl, c, labPicture, 0, 3, 5, 5);
+                
+                ////////////////////////////////////////////////////////////////
+                jDesktopPane1.add(jfrAdd);
+                Insets insets = jDesktopPane1.getInsets();
+                jfrAdd.setPreferredSize(new Dimension(500, 500));
+                Dimension size = jfrAdd.getPreferredSize();
+
+                jfrAdd.setBounds(10 + insets.left, 10 + insets.top,
+                        size.width, size.height);
+
+                jfrAdd.setVisible(true);
+            }
         } else {
-            jfrAdd.setVisible(false);
-            jfrAdd = null;
+            jfrAdd.hide();
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     JInternalFrame jfrView;
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        if(jToggleButton1.isSelected()) {           
-            jfrView = new JInternalFrame("Додавання іграшки");            
-            jfrView.setResizable(true);            
-            jDesktopPane1.add(jfrView);
-            
-            Insets insets = jDesktopPane1.getInsets();
-            jfrView.setPreferredSize(new Dimension(500, 500));
-            Dimension size = jfrAdd.getPreferredSize();
-            
-            jfrView.setBounds(10 + insets.left, 10 + insets.top, 
-                             size.width + 50, size.height + 20);
-            
-            jfrView.setVisible(true);
+        if (jToggleButton2.isSelected()) {
+            if (jfrView != null) {
+                jfrView.show();
+            } else {
+                jfrView = new JInternalFrame("Перегляд всіх іграшок");
+                jfrView.setName("jfrView");
+                jfrView.setResizable(true);
+                jfrView.setClosable(true);
+
+                jDesktopPane1.add(jfrView);
+                Insets insets = jDesktopPane1.getInsets();
+                jfrView.setPreferredSize(new Dimension(500, 500));
+                Dimension size = jfrView.getPreferredSize();
+
+                jfrView.setBounds(10 + insets.left, 10 + insets.top,
+                        size.width, size.height);
+
+                jfrView.setVisible(true);
+            }
         } else {
-            jfrView.setVisible(false);
-            jfrView = null;
+            jfrView.hide();
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     JInternalFrame jfrSearch;
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-         if(jToggleButton1.isSelected()) {           
-            jfrSearch = new JInternalFrame("Додавання іграшки");            
-            jfrSearch.setResizable(true);            
-            jDesktopPane1.add(jfrSearch);
-            
-            Insets insets = jDesktopPane1.getInsets();
-            jfrSearch.setPreferredSize(new Dimension(500, 500));
-            Dimension size = jfrSearch.getPreferredSize();
-            
-            jfrSearch.setBounds(10 + insets.left, 10 + insets.top, 
-                             size.width + 50, size.height + 20);
-            
-            jfrSearch.setVisible(true);
+        if (jToggleButton3.isSelected()) {
+            if (jfrSearch != null) {
+                jfrSearch.show();
+            } else {
+                jfrSearch = new JInternalFrame("Пошук за критеріями");
+                jfrSearch.setName("jfrSearch");
+                jfrSearch.setResizable(true);
+                jfrSearch.setClosable(true);
+
+                jDesktopPane1.add(jfrSearch);
+                Insets insets = jDesktopPane1.getInsets();
+                jfrSearch.setPreferredSize(new Dimension(500, 500));
+                Dimension size = jfrSearch.getPreferredSize();
+
+                jfrSearch.setBounds(10 + insets.left, 10 + insets.top,
+                        size.width, size.height);
+
+                jfrSearch.setVisible(true);
+            }
         } else {
-            jfrSearch.setVisible(false);
-            jfrSearch = null;
+            jfrSearch.hide();        
         }
     }//GEN-LAST:event_jToggleButton3ActionPerformed
-    
+
     /**
      * @param args the command line arguments
      */
@@ -230,8 +304,35 @@ public class Toys extends javax.swing.JFrame {
                 Toys mainFrame = new Toys();
                 mainFrame.setVisible(true);
                 mainFrame.setExtendedState(MAXIMIZED_BOTH);
+                                
+              //  String path = "/lab2/images/ico.jpeg";
+                //URL imgURL = getClass().getResource(path);
+               // ImageIcon icon = new ImageIcon(imgURL);
+                
+               // mainFrame.setIconImage(icon.getImage());
             }
-        });
+        });        
+    }
+
+    public void addPaneListener() {
+        jDesktopPane1.addContainerListener(new ContainerAdapter() {
+            public void componentRemoved(ContainerEvent e) {
+                //JOptionPane.showConfirmDialog(e.getContainer(), e.getChild().getName() + " dsgfsdg");
+                String tmp = e.getChild().getName();
+                if (tmp.equals("jfrAdd")) {
+                    jfrAdd = null;
+                    jToggleButton1.setSelected(false);
+                } else if(tmp.equals("jfrView")) {
+                    jfrView = null;
+                    jToggleButton2.setSelected(false);
+                } else if(tmp.equals("jfrSearch")) {
+                    jfrSearch = null;
+                    jToggleButton3.setSelected(false);
+                };
+            }
+        ;
+    }
+    );
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
