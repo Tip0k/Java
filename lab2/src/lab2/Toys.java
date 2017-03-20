@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.*;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.border.LineBorder;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +24,7 @@ public class Toys extends javax.swing.JFrame {
      */
     public Toys() {
         initComponents();
-        addPaneListener();               
+        addPaneListener();
     }
 
     /**
@@ -132,24 +133,24 @@ public class Toys extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     public void setComponent(JInternalFrame jfr, GridBagLayout gbl, GridBagConstraints gbc,
-            Component c, int row, int col, int nrow, int ncol) { 
-      gbc.gridx = col; 
-      gbc.gridy = row; 
-      gbc.gridwidth = ncol ; 
-      gbc.gridheight = nrow; 
-      gbl.setConstraints(c, gbc); 
+            Component c, int row, int col, int nrow, int ncol) {
+      gbc.gridx = col;
+      gbc.gridy = row;
+      gbc.gridwidth = ncol ;
+      gbc.gridheight = nrow;
+      gbl.setConstraints(c, gbc);
       jfr.add(c);
     }
-    
+
     JInternalFrame jfrAdd;
     JLabel labName;
     JTextField textName;
     JLabel labPrice;
     JTextField textPrice;
     JLabel labAge;
-    JComboBox<String> comboAge;
+    JComboBox<AgeLimits> comboAge;
     JLabel labAttribute;
     JTextArea textAttribute;
     JLabel labPicture;
@@ -165,44 +166,45 @@ public class Toys extends javax.swing.JFrame {
                 GridBagLayout gbl = new GridBagLayout();
                 GridBagConstraints c = new GridBagConstraints();
                 jfrAdd.setLayout(gbl);
-                
+
                 labName = new JLabel("Назва іграшки:");
-                c.anchor = GridBagConstraints.NORTHWEST; 
+                c.anchor = GridBagConstraints.NORTHWEST;
                 c.fill = GridBagConstraints.NONE;
-                c.insets = new Insets(0, 10, 0, 0);    
+                c.insets = new Insets(0, 10, 0, 0);
                 setComponent(jfrAdd, gbl, c, labName, 0, 0, 1, 1);
-                
+
                 textName = new JTextField(5);
                 setComponent(jfrAdd, gbl, c, textName, 0, 1, 1, 1);
-                
+
                 labPrice = new JLabel("Ціна іграшки:");
                 setComponent(jfrAdd, gbl, c, labPrice, 1, 0, 1, 1);
-                
+
                 textPrice = new JTextField(5);
                 setComponent(jfrAdd, gbl, c, textPrice, 1, 1, 1, 1);
-                
+
                 labAge = new JLabel("Вікові межі:");
                 setComponent(jfrAdd, gbl, c, labAge, 2, 0, 1, 1);
-                
-                String[] defaultAgeLimits = new String[] {
-                    "0-3",
-                    "3-5",
-                    "5-8",
-                    "5+",
-                    "10+"
+
+                AgeLimits[] defaultAgeLimits = new AgeLimits[] {
+                  new AgeLimits(0, 3),
+                  new AgeLimits(3, 5),
+                  new AgeLimits(5, 8),
+                  new AgeLimits(8, 8),
+                  new AgeLimits(10, 10)
                 };
                 comboAge = new JComboBox<>(defaultAgeLimits);
                 setComponent(jfrAdd, gbl, c, comboAge, 2, 1, 1, 1);
-                
+
                 labAttribute = new JLabel("Додаткова інф.:");
                 setComponent(jfrAdd, gbl, c, labAttribute, 3, 0, 2, 1);
 
                 textAttribute = new JTextArea(2, 5);
                 setComponent(jfrAdd, gbl, c, textAttribute, 3, 1, 2, 1);
-                
-                labPicture = new JLabel(new ImageIcon("images/ico.jpeg","Not found"));
+
+                labPicture = new JLabel(new ImageIcon("images\\ico.jpg","Not found"));
+                labPicture.setBorder(new LineBorder(Color.yellow));
                 setComponent(jfrAdd, gbl, c, labPicture, 0, 3, 5, 5);
-                
+
                 ////////////////////////////////////////////////////////////////
                 jDesktopPane1.add(jfrAdd);
                 Insets insets = jDesktopPane1.getInsets();
@@ -267,7 +269,7 @@ public class Toys extends javax.swing.JFrame {
                 jfrSearch.setVisible(true);
             }
         } else {
-            jfrSearch.hide();        
+            jfrSearch.hide();
         }
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
@@ -278,7 +280,7 @@ public class Toys extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -304,14 +306,14 @@ public class Toys extends javax.swing.JFrame {
                 Toys mainFrame = new Toys();
                 mainFrame.setVisible(true);
                 mainFrame.setExtendedState(MAXIMIZED_BOTH);
-                                
+
               //  String path = "/lab2/images/ico.jpeg";
                 //URL imgURL = getClass().getResource(path);
                // ImageIcon icon = new ImageIcon(imgURL);
-                
+
                // mainFrame.setIconImage(icon.getImage());
             }
-        });        
+        });
     }
 
     public void addPaneListener() {

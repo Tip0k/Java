@@ -13,7 +13,7 @@ public class AgeLimits {
 
     private int min;
     private int max;
-    
+
     public AgeLimits(int min, int max) {
         if(min < 0 || min > max) throw new IllegalArgumentException();
         this.min = min;
@@ -23,8 +23,14 @@ public class AgeLimits {
     public int getMin() {
         return min;
     }
-    
+
     public int getMax() {
         return max;
+    }
+
+    @Override
+    public String toString() {
+        if(min == max) return min + "+";
+        return min + "-" + max;
     }
 }
