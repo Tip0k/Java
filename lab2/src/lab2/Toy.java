@@ -51,4 +51,9 @@ public class Toy {
     public String getPictureURL() {
         return pictureURL;
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
 }

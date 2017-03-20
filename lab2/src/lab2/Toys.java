@@ -136,6 +136,9 @@ public class Toys extends javax.swing.JFrame {
 
     public void setComponent(JInternalFrame jfr, GridBagLayout gbl, GridBagConstraints gbc,
             Component c, int row, int col, int nrow, int ncol) {
+      gbc.anchor = GridBagConstraints.CENTER;
+      gbc.fill = GridBagConstraints.BOTH;                      
+      gbc.insets = new Insets(0, 5, 0, 0);
       gbc.gridx = col;
       gbc.gridy = row;
       gbc.gridwidth = ncol ;
@@ -144,6 +147,8 @@ public class Toys extends javax.swing.JFrame {
       jfr.add(c);
     }
 
+    private static final int defaultNRow = 1;
+    private static final int defaultNCol = 20;
     JInternalFrame jfrAdd;
     JLabel labName;
     JTextField textName;
@@ -154,36 +159,34 @@ public class Toys extends javax.swing.JFrame {
     JLabel labAttribute;
     JTextArea textAttribute;
     JLabel labPicture;
+    JButton butOK;
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if (jToggleButton1.isSelected()) {
             if (jfrAdd != null) {
                 jfrAdd.show();
-            } else {
+            } else {              
                 jfrAdd = new JInternalFrame("Додати іграшку");
                 jfrAdd.setName("jfrAdd");
                 jfrAdd.setResizable(true);
                 jfrAdd.setClosable(true);
                 GridBagLayout gbl = new GridBagLayout();
-                GridBagConstraints c = new GridBagConstraints();
-                jfrAdd.setLayout(gbl);
+                GridBagConstraints gbc = new GridBagConstraints();
+                jfrAdd.setLayout(gbl);                
 
                 labName = new JLabel("Назва іграшки:");
-                c.anchor = GridBagConstraints.NORTHWEST;
-                c.fill = GridBagConstraints.NONE;
-                c.insets = new Insets(0, 10, 0, 0);
-                setComponent(jfrAdd, gbl, c, labName, 0, 0, 1, 1);
+                setComponent(jfrAdd, gbl, gbc, labName, 0, 0, defaultNRow, defaultNCol);
 
                 textName = new JTextField(5);
-                setComponent(jfrAdd, gbl, c, textName, 0, 1, 1, 1);
+                setComponent(jfrAdd, gbl, gbc, textName, 0, defaultNCol + 1, defaultNRow, defaultNCol);
 
                 labPrice = new JLabel("Ціна іграшки:");
-                setComponent(jfrAdd, gbl, c, labPrice, 1, 0, 1, 1);
+                setComponent(jfrAdd, gbl, gbc, labPrice, 1, 0, defaultNRow, defaultNCol);
 
                 textPrice = new JTextField(5);
-                setComponent(jfrAdd, gbl, c, textPrice, 1, 1, 1, 1);
+                setComponent(jfrAdd, gbl, gbc, textPrice, 1, defaultNCol + 1, defaultNRow, defaultNCol);
 
                 labAge = new JLabel("Вікові межі:");
-                setComponent(jfrAdd, gbl, c, labAge, 2, 0, 1, 1);
+                setComponent(jfrAdd, gbl, gbc, labAge, 2, 0, defaultNRow, defaultNCol);
 
                 AgeLimits[] defaultAgeLimits = new AgeLimits[] {
                   new AgeLimits(0, 3),
@@ -193,17 +196,24 @@ public class Toys extends javax.swing.JFrame {
                   new AgeLimits(10, 10)
                 };
                 comboAge = new JComboBox<>(defaultAgeLimits);
-                setComponent(jfrAdd, gbl, c, comboAge, 2, 1, 1, 1);
+                setComponent(jfrAdd, gbl, gbc, comboAge, 2, defaultNCol + 1, defaultNRow, defaultNCol);
 
                 labAttribute = new JLabel("Додаткова інф.:");
-                setComponent(jfrAdd, gbl, c, labAttribute, 3, 0, 2, 1);
+                setComponent(jfrAdd, gbl, gbc, labAttribute, 3, 0, defaultNRow + 2, defaultNCol);
 
                 textAttribute = new JTextArea(2, 5);
-                setComponent(jfrAdd, gbl, c, textAttribute, 3, 1, 2, 1);
+                setComponent(jfrAdd, gbl, gbc, textAttribute, 3, defaultNCol + 1, defaultNRow + 1, defaultNCol);
 
-                labPicture = new JLabel(new ImageIcon("images\\ico.jpg","Not found"));
-                labPicture.setBorder(new LineBorder(Color.yellow));
-                setComponent(jfrAdd, gbl, c, labPicture, 0, 3, 5, 5);
+                labPicture = new JLabel();
+                labPicture.setBorder(new LineBorder(Color.cyan));
+                labPicture.setBounds(0, 0, 150, 150);
+                setComponent(jfrAdd, gbl, gbc, labPicture, 0, defaultNCol*2 + 1, defaultNRow + 4, defaultNCol);
+                labPicture.setIcon(new ImageIcon(new ImageIcon("images\\ico.jpg"
+                        ,"Not found").getImage().getScaledInstance(labPicture.getWidth(),
+                                labPicture.getHeight(), Image.SCALE_DEFAULT)));
+                
+                butOK = new JButton("OK");
+                setComponent(jfrAdd, gbl, gbc, butOK, 6, defaultNCol + 1, defaultNRow, 30);
 
                 ////////////////////////////////////////////////////////////////
                 jDesktopPane1.add(jfrAdd);
@@ -222,22 +232,65 @@ public class Toys extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     JInternalFrame jfrView;
+    JLabel labName1;
+    JComboBox<Toy> comboName1;
+    JLabel labPrice1;
+    JLabel labAge1;
+    JLabel labAttribute1;
+    JLabel labPicture1;
+    JButton butOK1;
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         if (jToggleButton2.isSelected()) {
             if (jfrView != null) {
                 jfrView.show();
             } else {
+                Toy toy = new Toy("name", 12.0d, new AgeLimits(0, 5), "bla bla bla", "ggg");//example
+                Toy[] toyArray = new Toy[] {
+                    toy
+                };
+                
                 jfrView = new JInternalFrame("Перегляд всіх іграшок");
                 jfrView.setName("jfrView");
                 jfrView.setResizable(true);
                 jfrView.setClosable(true);
+                GridBagLayout gbl = new GridBagLayout();
+                GridBagConstraints gbc = new GridBagConstraints();
+                jfrView.setLayout(gbl);                
+////////
+//розбратись з грід лаяутом...
+                comboName1 = new JComboBox<>(toyArray);
+                setComponent(jfrView, gbl, gbc, comboName1, 0, 0, 0, 0);
+                
+                labName1 = new JLabel("Назва іграшки: " + toy.getName());
+                setComponent(jfrView, gbl, gbc, labName1, 0, 0, defaultNRow, defaultNCol);
 
+                labPrice1 = new JLabel("Ціна іграшки: " + toy.getPrice());
+                setComponent(jfrView, gbl, gbc, labPrice1, 1, 0, defaultNRow, defaultNCol);
+
+                labAge1 = new JLabel("Вікові межі: " + toy.getAgeLimits().toString());
+                setComponent(jfrView, gbl, gbc, labAge1, 2, 0, defaultNRow, defaultNCol);
+
+                labAttribute1 = new JLabel("Додаткова інф.: " + toy.getAttribute());
+                setComponent(jfrView, gbl, gbc, labAttribute1, 3, 0, defaultNRow + 2, defaultNCol);
+
+                labPicture1 = new JLabel();
+                labPicture1.setBorder(new LineBorder(Color.cyan));
+                labPicture1.setBounds(0, 0, 150, 150);
+                setComponent(jfrView, gbl, gbc, labPicture1, 0, defaultNCol*2 + 1, defaultNRow + 4, defaultNCol);
+                labPicture1.setIcon(new ImageIcon(new ImageIcon(toy.getPictureURL()
+                        ,"Not found").getImage().getScaledInstance(labPicture1.getWidth(),
+                                labPicture1.getHeight(), Image.SCALE_DEFAULT)));
+                
+                butOK1 = new JButton("OK");
+                setComponent(jfrView, gbl, gbc, butOK1, 6, defaultNCol + 1, defaultNRow, 30);
+
+                ////////////////////////////////////////////////////////////////
                 jDesktopPane1.add(jfrView);
                 Insets insets = jDesktopPane1.getInsets();
                 jfrView.setPreferredSize(new Dimension(500, 500));
                 Dimension size = jfrView.getPreferredSize();
 
-                jfrView.setBounds(10 + insets.left, 10 + insets.top,
+                jfrView.setBounds(10*2 + insets.left + size.width, 10 + insets.top,
                         size.width, size.height);
 
                 jfrView.setVisible(true);
@@ -307,11 +360,8 @@ public class Toys extends javax.swing.JFrame {
                 mainFrame.setVisible(true);
                 mainFrame.setExtendedState(MAXIMIZED_BOTH);
 
-              //  String path = "/lab2/images/ico.jpeg";
-                //URL imgURL = getClass().getResource(path);
-               // ImageIcon icon = new ImageIcon(imgURL);
-
-               // mainFrame.setIconImage(icon.getImage());
+                ImageIcon icon = new ImageIcon("images/ico.jpg");
+                mainFrame.setIconImage(icon.getImage());
             }
         });
     }
