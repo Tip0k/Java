@@ -1,10 +1,13 @@
 package lab2;
 
+import java.util.zip.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.Insets;
 import java.awt.event.*;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -27,6 +30,24 @@ public class Toys extends javax.swing.JFrame {
     public Toys() {
         initComponents();
         addPaneListener();
+        //////архів... розібратись
+        currentDirectory = new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2);
+        ToysDataBase = currentDirectory + "\\files\\ToysDataBase\\";
+        File TDB = new File(ToysDataBase + ".zip");
+        if(!TDB.exists()) {
+            try {
+            TDB.createNewFile();
+            FileOutputStream fout = new FileOutputStream(ToysDataBase + ".zip");
+            ZipOutputStream zout = new ZipOutputStream(fout);
+            ZipEntry ze = new ZipEntry("ToysDataBase1.txt");
+            zout.putNextEntry(ze);
+            zout.closeEntry();
+            zout.close();
+            ToysDataBase += "ToysDataBase1.txt";
+            } catch (IOException ex){
+                jLabel1.setText("Ffffse'");
+            }
+        }
     }
 
     /**
@@ -117,12 +138,16 @@ public class Toys extends javax.swing.JFrame {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Ready");
+        jLabel1.setToolTipText("");
         jLabel1.setMaximumSize(new java.awt.Dimension(200, 16));
         jLabel1.setMinimumSize(new java.awt.Dimension(100, 16));
         jLabel1.setName(""); // NOI18N
-        jLabel1.setPreferredSize(new java.awt.Dimension(200, 16));
+        jLabel1.setPreferredSize(new java.awt.Dimension(100, 16));
         jPanel1.add(jLabel1);
+        jLabel1.getAccessibleContext().setAccessibleName("jLabel1");
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator1.setToolTipText("");
@@ -169,6 +194,7 @@ public class Toys extends javax.swing.JFrame {
 
     private static final int defaultNRow = 1;
     private static final int defaultNCol = 1;
+    private String tempImage;
     JInternalFrame jfrAdd;
     JLabel labName;
     JTextField textName;
@@ -179,7 +205,7 @@ public class Toys extends javax.swing.JFrame {
     JLabel labAttribute;
     JTextField textAttribute;
     JLabel labPicture;
-    JButton butOK;
+    JButton butOK;   
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if (jToggleButton1.isSelected()) {
             if (jfrAdd != null) {
@@ -226,13 +252,59 @@ public class Toys extends javax.swing.JFrame {
                 setComponent(jfrAdd, gbl, gbc, textAttribute, 10, 2, 3, 1, defaultNRow + 1, defaultNCol);
 
                 labPicture = new JLabel();
+                labPicture.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                       try{
+                       JFileChooser openImage = new JFileChooser();
+                       openImage.showOpenDialog(jPanel1);
+                       File imageFile = openImage.getSelectedFile();
+                       
+                       tempImage = imageFile.getAbsolutePath();
+                       labPicture.setIcon(new ImageIcon(new ImageIcon(imageFile.getAbsolutePath()).getImage().getScaledInstance(labPicture.getWidth(),
+                                labPicture.getHeight(), Image.SCALE_SMOOTH)));
+                       
+                       textName.setText(tempImage);
+                       } catch(Exception ex){
+                           labPicture.setIcon(new ImageIcon(new ImageIcon("images\\ico.jpg"
+                        ,"Click to add new image.").getImage().getScaledInstance(labPicture.getWidth(),
+                                labPicture.getHeight(), Image.SCALE_SMOOTH)));
+                           tempImage = null;
+                       }
+                    }
+                    
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    }
+                });
                 labPicture.setBorder(new LineBorder(Color.cyan));
                 setComponent(jfrAdd, gbl, gbc, labPicture, 15, 15, 0, 3, defaultNRow + 7, defaultNCol + 1);
                 labPicture.setIcon(new ImageIcon(new ImageIcon("images\\ico.jpg"
-                        ,"Not found").getImage().getScaledInstance(labPicture.getWidth(),
-                                labPicture.getHeight(), Image.SCALE_DEFAULT)));
+                        ,"Click to add new image.").getImage().getScaledInstance(labPicture.getWidth(),
+                                labPicture.getHeight(), Image.SCALE_SMOOTH)));
                 
                 butOK = new JButton("OK");
+                butOK.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    butOKActionPerformed(evt);
+            }
+        });
                 setComponent(jfrAdd, gbl, gbc, butOK, 10, 2, 6, 1, defaultNRow, defaultNCol);
 
                 jDesktopPane1.add(jfrAdd);
@@ -250,6 +322,32 @@ public class Toys extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private void butOKActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            jLabel1.setText("Ready");
+            double tmpPrice = Double.parseDouble(textPrice.getText());
+            File sourceImage = new File(tempImage);
+            String extension = sourceImage.getCanonicalPath().substring(sourceImage.getCanonicalPath().lastIndexOf("."));
+            File destImage;
+            String imageURL;
+            do{
+                int id = (int)(Math.random()*10 + Math.random()*100 + Math.random()*1000 + Math.random()*10000);
+                imageURL = new File(".").getAbsolutePath() + "\\images\\" + id + extension;
+                destImage = new File(imageURL);
+            }
+            while(destImage.exists());
+            
+            Files.copy(sourceImage.toPath(), destImage.toPath());
+            Toy newToy = new Toy(textName.getText(), tmpPrice,
+            (AgeLimits)comboAge.getSelectedItem(), textAttribute.getText(), imageURL);
+            
+            addToyToFile(newToy);
+        } catch(Exception ex){
+           jLabel1.setText("Error");
+        }
+    }
+    
+    
     JInternalFrame jfrView;
     JLabel labName1;
     JComboBox<Toy> comboName1;
@@ -428,12 +526,21 @@ public class Toys extends javax.swing.JFrame {
                     jfrSearch = null;
                     jToggleButton3.setSelected(false);
                 };
-            }
-        ;
+            };
+        });
     }
-    );
+    
+    private void addToyToFile(Toy toy) {        
+        try{
+            
+            jLabel1.setText("Added");
+        } catch(Exception ex) {
+            jLabel1.setText("Error");
+        }
     }
 
+    private String currentDirectory;
+    private String ToysDataBase;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
