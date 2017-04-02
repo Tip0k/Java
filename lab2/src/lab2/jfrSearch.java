@@ -1,5 +1,7 @@
 package lab2;
 
+import javax.swing.JComboBox;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,9 +17,11 @@ public class jfrSearch extends javax.swing.JInternalFrame {
     /**
      * Creates new form jfrAdd
      */
-    public jfrSearch(String name) {
+    public jfrSearch(String name, AgeLimits[] defAgeLim) {
         this.setTitle(name);
-        initComponents();
+        initComponents();  
+        for(int i = 0; i < defAgeLim.length; i++)
+            jComboBox1.addItem(defAgeLim[i]);
     }
 
     /**
@@ -44,19 +48,22 @@ public class jfrSearch extends javax.swing.JInternalFrame {
         jLabel1.setText("Ціна іграшки:");
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("0");
+        jTextField1.setText("0.0");
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("0");
+        jTextField2.setText("0.0");
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("-");
 
         jLabel3.setText("Вікові межі:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jButton1.setText("Пошук");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Назва (повністю або частина):");
 
@@ -133,10 +140,14 @@ public class jfrSearch extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<AgeLimits> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

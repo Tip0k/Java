@@ -56,4 +56,14 @@ public class Toy {
     public String toString() {
         return name;
     }
+    
+    public static Toy convertToToy(String someToyStr) {
+        String[] tmp = someToyStr.split(",");
+        return new Toy(tmp[0], Double.parseDouble(tmp[1]), AgeLimits.convertToAgeLimits(tmp[2]), tmp[3], tmp[4]);
+    }
+    
+    public static String convertToString(Toy someToy) {
+        return someToy.getName() + "," + AgeLimits.convertToString(someToy.getAgeLimits()) + "," 
+                + someToy.getAttribute() + "," + someToy.getPictureURL() + "\r\n";
+    }    
 }

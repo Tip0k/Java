@@ -33,4 +33,13 @@ public class AgeLimits {
         if(min == max) return min + "+";
         return min + "-" + max;
     }
+    
+    public static String convertToString(AgeLimits ageLimits) {
+        return ageLimits.getMin() + "-" + ageLimits.getMax();
+    }
+    
+    public static AgeLimits convertToAgeLimits(String ageLimitsStr) {
+        String[] tmp = ageLimitsStr.split("-");
+        return new AgeLimits(Integer.parseInt(tmp[0]), Integer.parseInt(tmp[0]));
+    }
 }

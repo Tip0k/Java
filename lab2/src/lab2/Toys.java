@@ -1,5 +1,6 @@
 package lab2;
 
+
 import java.util.zip.*;
 import java.awt.*;
 import javax.swing.*;
@@ -8,9 +9,13 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import static java.util.zip.ZipFile.*;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.metal.MetalBorders;
+import javax.xml.soap.MessageFactory;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /*
@@ -23,32 +28,89 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
  * @author PEOPLE
  */
 public class Toys extends javax.swing.JFrame {
-
+    public boolean progressFlag = false;
+    public final AgeLimits[] defaultAgeLimits;
+    
+    public String getCurrentDirectory() {
+        return new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2);
+    }
+        
+    public ArrayList<Toy> readFromDB(String ToysDataBaseZip, String ToysDataBaseTxt) {
+        jProgressBar1.setIndeterminate(true);
+        ArrayList<Toy> tmp = new ArrayList<>();
+        
+        if(!new File(ToysDataBaseZip).exists()) {
+            return tmp;
+        }
+        
+        try {
+            JOptionPane.showMessageDialog(this, "1");
+            ZipFile zip = new ZipFile(ToysDataBaseZip);
+            JOptionPane.showMessageDialog(this, "2");
+            BufferedReader in = new BufferedReader(new InputStreamReader(zip.getInputStream(zip.getEntry(ToysDataBaseTxt))));
+            JOptionPane.showMessageDialog(this, "3");
+            String nextLine;
+            JOptionPane.showMessageDialog(this, "4");
+            while ((nextLine = in.readLine()) != null) {
+                tmp.add(Toy.convertToToy(nextLine));
+            }
+        } catch (ZipException ex1) { 
+            JOptionPane.showMessageDialog(this, "ZipException");
+        } catch (IOException ex2) { 
+            JOptionPane.showMessageDialog(this, "IOException");
+        } catch (SecurityException ex3) { 
+            JOptionPane.showMessageDialog(this, "SecurityException");
+        } catch (Exception ex4) { 
+            JOptionPane.showMessageDialog(this, "Exception");
+        } finally {
+            jProgressBar1.setIndeterminate(progressFlag);
+        }
+        return tmp;
+    }
+    
+    public boolean writeInDB(Toy newToy) {  
+        jProgressBar1.setIndeterminate(true);
+        String ToysDataBaseZip = getCurrentDirectory() + "\\files\\ToysDataBase.zip";        
+        String ToysDataBaseTxt = "ToysDataBase.txt";
+        ArrayList<Toy> tmp;
+        
+        try {
+            tmp = readFromDB(ToysDataBaseZip, ToysDataBaseTxt);
+            tmp.add(newToy);
+            
+            if(!new File(ToysDataBaseZip).exists()) {
+                new File(ToysDataBaseZip).createNewFile();
+            }
+            ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(ToysDataBaseZip));
+            ZipEntry entry1 = new ZipEntry("ToysDataBase.txt");///якщо вже є як видалити? пише тільки останню іграшку....
+                
+            zout.putNextEntry(entry1);
+            for(int i = 0; i < tmp.size(); i++) {
+                zout.write(Toy.convertToString(tmp.get(i)).getBytes());
+            }         
+            zout.closeEntry();            
+        } catch(Exception ex) { 
+            return false; 
+        } finally {
+            jProgressBar1.setIndeterminate(progressFlag);
+        }
+        return true;
+    }
+    
     /**
      * Creates new form Toys
      */
     public Toys() {
         initComponents();
         addPaneListener();
-        //////архів... розібратись
-        currentDirectory = new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2);
-        ToysDataBase = currentDirectory + "\\files\\ToysDataBase\\";
-        File TDB = new File(ToysDataBase + ".zip");
-        if(!TDB.exists()) {
-            try {
-            TDB.createNewFile();
-            FileOutputStream fout = new FileOutputStream(ToysDataBase + ".zip");
-            ZipOutputStream zout = new ZipOutputStream(fout);
-            ZipEntry ze = new ZipEntry("ToysDataBase1.txt");
-            zout.putNextEntry(ze);
-            zout.closeEntry();
-            zout.close();
-            ToysDataBase += "ToysDataBase1.txt";
-            } catch (IOException ex){
-                jLabel1.setText("Ffffse'");
-            }
-        }
-    }
+        defaultAgeLimits = new AgeLimits[] {
+            new AgeLimits(0, 3),
+            new AgeLimits(3, 5),
+            new AgeLimits(5, 8),
+            new AgeLimits(8, 8),
+            new AgeLimits(10, 10)
+        };
+    }    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -194,7 +256,7 @@ public class Toys extends javax.swing.JFrame {
 
     private static final int defaultNRow = 1;
     private static final int defaultNCol = 1;
-    private String tempImage;
+    private String tempImage = "default";
     JInternalFrame jfrAdd;
     JLabel labName;
     JTextField textName;
@@ -207,9 +269,11 @@ public class Toys extends javax.swing.JFrame {
     JLabel labPicture;
     JButton butOK;   
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        jProgressBar1.setIndeterminate(true);
         if (jToggleButton1.isSelected()) {
             if (jfrAdd != null) {
                 jfrAdd.show();
+                jProgressBar1.setIndeterminate(progressFlag);
             } else {              
                 jfrAdd = new JInternalFrame("Додати іграшку");
                 jfrAdd.setName("jfrAdd");
@@ -233,14 +297,7 @@ public class Toys extends javax.swing.JFrame {
 
                 labAge = new JLabel("Вікові межі:");
                 setComponent(jfrAdd, gbl, gbc, labAge, 10, 2, 2, 0, defaultNRow, defaultNCol);
-
-                AgeLimits[] defaultAgeLimits = new AgeLimits[] {
-                  new AgeLimits(0, 3),
-                  new AgeLimits(3, 5),
-                  new AgeLimits(5, 8),
-                  new AgeLimits(8, 8),
-                  new AgeLimits(10, 10)
-                };
+                
                 comboAge = new JComboBox<>(defaultAgeLimits);
                 comboAge.setSize(1000, 3000);
                 setComponent(jfrAdd, gbl, gbc, comboAge, 10, 2, 2, 1, defaultNRow, defaultNCol);
@@ -263,13 +320,11 @@ public class Toys extends javax.swing.JFrame {
                        tempImage = imageFile.getAbsolutePath();
                        labPicture.setIcon(new ImageIcon(new ImageIcon(imageFile.getAbsolutePath()).getImage().getScaledInstance(labPicture.getWidth(),
                                 labPicture.getHeight(), Image.SCALE_SMOOTH)));
-                       
-                       textName.setText(tempImage);
                        } catch(Exception ex){
-                           labPicture.setIcon(new ImageIcon(new ImageIcon("images\\ico.jpg"
+                           labPicture.setIcon(new ImageIcon(new ImageIcon("images\\default.jpg"
                         ,"Click to add new image.").getImage().getScaledInstance(labPicture.getWidth(),
                                 labPicture.getHeight(), Image.SCALE_SMOOTH)));
-                           tempImage = null;
+                           tempImage = "default";
                        }
                     }
                     
@@ -295,7 +350,7 @@ public class Toys extends javax.swing.JFrame {
                 });
                 labPicture.setBorder(new LineBorder(Color.cyan));
                 setComponent(jfrAdd, gbl, gbc, labPicture, 15, 15, 0, 3, defaultNRow + 7, defaultNCol + 1);
-                labPicture.setIcon(new ImageIcon(new ImageIcon("images\\ico.jpg"
+                labPicture.setIcon(new ImageIcon(new ImageIcon("images\\default.jpg"
                         ,"Click to add new image.").getImage().getScaledInstance(labPicture.getWidth(),
                                 labPicture.getHeight(), Image.SCALE_SMOOTH)));
                 
@@ -316,38 +371,64 @@ public class Toys extends javax.swing.JFrame {
                         size.width, size.height);
 
                 jfrAdd.setVisible(true);
+                jProgressBar1.setIndeterminate(progressFlag);
             }
         } else {
+            jProgressBar1.setIndeterminate(progressFlag);
             jfrAdd.hide();
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void butOKActionPerformed(java.awt.event.ActionEvent evt) {
         try {
+            progressFlag = true;
+            jProgressBar1.setIndeterminate(progressFlag);            
             jLabel1.setText("Ready");
-            double tmpPrice = Double.parseDouble(textPrice.getText());
-            File sourceImage = new File(tempImage);
-            String extension = sourceImage.getCanonicalPath().substring(sourceImage.getCanonicalPath().lastIndexOf("."));
-            File destImage;
-            String imageURL;
-            do{
-                int id = (int)(Math.random()*10 + Math.random()*100 + Math.random()*1000 + Math.random()*10000);
-                imageURL = new File(".").getAbsolutePath() + "\\images\\" + id + extension;
-                destImage = new File(imageURL);
-            }
-            while(destImage.exists());
             
-            Files.copy(sourceImage.toPath(), destImage.toPath());
+            textPrice.setBackground(Color.white);
+            textName.setBackground(Color.white);
+            double tmpPrice = Double.parseDouble(textPrice.getText());
+            
+            String imageURL;
+            if(tempImage.equals("default")) {
+                imageURL = getCurrentDirectory() + "\\images\\" + "default.jpg";
+            } else {                
+                File sourceImage = new File(tempImage);
+                String extension = sourceImage.getCanonicalPath().substring(sourceImage.getCanonicalPath().lastIndexOf("."));
+                File destImage;                       
+                do{
+                    int id = (int)(Math.random()*10 + Math.random()*100 + Math.random()*1000 + Math.random()*10000);
+                    imageURL = getCurrentDirectory() + "\\images\\" + id + extension;
+                    destImage = new File(imageURL);
+                 }
+                 while(destImage.exists());            
+                 Files.copy(sourceImage.toPath(), destImage.toPath());                 
+            }            
             Toy newToy = new Toy(textName.getText(), tmpPrice,
             (AgeLimits)comboAge.getSelectedItem(), textAttribute.getText(), imageURL);
             
-            addToyToFile(newToy);
-        } catch(Exception ex){
+            addToyToFile(newToy);            
+            
+            textName.setText(" ");
+            textPrice.setText(" ");
+            textAttribute.setText(" ");
+            labPicture.setIcon(new ImageIcon(new ImageIcon("images\\default.jpg"
+            ,"Click to add new image.").getImage().getScaledInstance(labPicture.getWidth(),
+            labPicture.getHeight(), Image.SCALE_SMOOTH)));
+        } catch(NumberFormatException ex1){
+            textPrice.setBackground(Color.red);
+            jLabel1.setText("Error");
+        } catch(IllegalArgumentException ex2){
+            textName.setBackground(Color.red);
            jLabel1.setText("Error");
+        } catch(Exception ex3){
+           jLabel1.setText("Error");
+        } finally {
+            progressFlag = false;
+            jProgressBar1.setIndeterminate(progressFlag);
         }
     }
-    
-    
+        
     JInternalFrame jfrView;
     JLabel labName1;
     JComboBox<Toy> comboName1;
@@ -355,16 +436,16 @@ public class Toys extends javax.swing.JFrame {
     JLabel labAge1;
     JLabel labAttribute1;
     JLabel labPicture1;
-    JButton butOK1;
+    //JButton butOK1;
+    Toy selectedToy;
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        jProgressBar1.setIndeterminate(true);
         if (jToggleButton2.isSelected()) {
             if (jfrView != null) {
                 jfrView.show();
             } else {
-                Toy toy = new Toy("name", 12.0d, new AgeLimits(0, 5), "bla bla bla", "ggg");//example
-                Toy[] toyArray = new Toy[] {
-                    toy
-                };
+                ArrayList<Toy> toyArrayList = readFromDB(getCurrentDirectory() +
+                               "\\files\\ToysDataBase.zip", "ToysDataBase.txt");
                 
                 jfrView = new JInternalFrame("Перегляд всіх іграшок");
                 jfrView.setName("jfrView");
@@ -374,60 +455,53 @@ public class Toys extends javax.swing.JFrame {
                 GridBagConstraints gbc = new GridBagConstraints();
                 jfrView.setLayout(gbl);                
 
-                ////////gridLayout
-                /*
-                int defWidth = 100;
-                int defHeight = 20;
-                
-                 jfrView.setLayout(new GridLayout(3, 2, 5, 5));
-                 
-                 comboName1 = new JComboBox<>(toyArray);
-                 comboName1.setSize(defWidth, defHeight);
-                 jfrView.add(comboName1);
-                 
-                 labName1 = new JLabel("Назва іграшки: " + toy.getName());
-                 
-                 JLabel labName2 = new JLabel("Назва іграшки: " + toy.getName());
-                 JLabel labName3 = new JLabel("Назва іграшки: " + toy.getName());
-                 JLabel labName4 = new JLabel("Назва іграшки: " + toy.getName());
-                 JRadioButton rb = new JRadioButton();
-                 
-                 //labName1.setSize(d);
-                 jfrView.add(labName1);
-                 jfrView.add(labName3);
-                 jfrView.add(labName4);
-                 jfrView.add(rb);
-                 textAttribute = new JTextField(15);
-                 
-                 jfrView.add(textAttribute);
-                 */
-                //////////
-                
-                ////////////////////////////////////////////////////////////////
-                comboName1 = new JComboBox<>(toyArray);
+                try {                                    
+                comboName1 = new JComboBox<>((Toy[])toyArrayList.toArray());
+                } catch (Exception ex) {
+                    comboName1 = new JComboBox<>(new Toy[] { new Toy("empty", 
+                    0.0d, new AgeLimits(0, 0), "", getCurrentDirectory() + 
+                    "\\images\\default.jpg") });
+                }
                 setComponent(jfrView, gbl, gbc, comboName1, 10, 2, 0, 0, 1, 1);
+                comboName1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        jLabel1.setText("Ready");
+                        jProgressBar1.setIndeterminate(true);
+                        selectedToy = (Toy)comboName1.getSelectedItem();
+                        labName1 = new JLabel("Назва іграшки: " + selectedToy.getName());
+                        labPrice1 = new JLabel("Ціна іграшки: " + selectedToy.getPrice());
+                        labAge1 = new JLabel("Вікові межі: " + selectedToy.getAgeLimits().toString());
+                        labAttribute1 = new JLabel("Додаткова інф.: " + selectedToy.getAttribute());
+                        labPicture1.setIcon(new ImageIcon(new ImageIcon(selectedToy.getPictureURL()
+                        ,"Not found").getImage().getScaledInstance(labPicture1.getWidth(),
+                        labPicture1.getHeight(), Image.SCALE_DEFAULT)));
+                        jLabel1.setText("Done");
+                        jProgressBar1.setIndeterminate(false);
+                    }
+                });
                 
-                labName1 = new JLabel("Назва іграшки: " + toy.getName());
+                labName1 = new JLabel("Назва іграшки: ");
                 setComponent(jfrView, gbl, gbc, labName1, 10, 2, 1, 0, 1, 1);
 
-                labPrice1 = new JLabel("Ціна іграшки: " + toy.getPrice());
+                labPrice1 = new JLabel("Ціна іграшки: ");
                 setComponent(jfrView, gbl, gbc, labPrice1, 10, 2, 2, 0, defaultNRow, defaultNCol);
 
-                labAge1 = new JLabel("Вікові межі: " + toy.getAgeLimits().toString());
+                labAge1 = new JLabel("Вікові межі: ");
                 setComponent(jfrView, gbl, gbc, labAge1, 10, 2, 3, 0, defaultNRow, defaultNCol);
 
-                labAttribute1 = new JLabel("Додаткова інф.: " + toy.getAttribute());
+                labAttribute1 = new JLabel("Додаткова інф.: ");
                 setComponent(jfrView, gbl, gbc, labAttribute1, 10, 2, 4, 0, defaultNRow + 1, defaultNCol);
 
                 labPicture1 = new JLabel();
                 labPicture1.setBorder(new LineBorder(Color.cyan));
                 setComponent(jfrView, gbl, gbc, labPicture1, 15, 15, 0, 1, defaultNRow + 6, 2);
-                labPicture1.setIcon(new ImageIcon(new ImageIcon(toy.getPictureURL()
-                        ,"Not found").getImage().getScaledInstance(labPicture1.getWidth(),
-                                labPicture1.getHeight(), Image.SCALE_DEFAULT)));
+                //labPicture1.setIcon(new ImageIcon(new ImageIcon(selectedToy.getPictureURL()
+                //        ,"Not found").getImage().getScaledInstance(labPicture1.getWidth(),
+                //                labPicture1.getHeight(), Image.SCALE_DEFAULT)));
                 
-                butOK1 = new JButton("OK");
-                setComponent(jfrView, gbl, gbc, butOK1, 10, 2, 6, 0, defaultNRow, 2);
+                //butOK1 = new JButton("OK");
+                //setComponent(jfrView, gbl, gbc, butOK1, 10, 2, 6, 0, defaultNRow, 2);
              
                 Insets insets = jDesktopPane1.getInsets();
                 jfrView.setPreferredSize(new Dimension(600, 250));
@@ -439,6 +513,8 @@ public class Toys extends javax.swing.JFrame {
                 jfrView.pack();
                 jfrView.setVisible(true);
                 jDesktopPane1.add(jfrView);
+                
+                jProgressBar1.setIndeterminate(progressFlag);
             }
         } else {
             jfrView.hide();
@@ -451,7 +527,7 @@ public class Toys extends javax.swing.JFrame {
             if (jfrSearch != null) {
                 jfrSearch.show();
             } else {
-                jfrSearch = new jfrSearch("Пошук за критеріями");//new JInternalFrame("Пошук за критеріями");
+                jfrSearch = new jfrSearch("Пошук за критеріями", defaultAgeLimits);//new JInternalFrame("Пошук за критеріями");
                 jfrSearch.setName("jfrSearch");
                 //jfrSearch.setResizable(true);
                 jfrSearch.setClosable(true);
@@ -519,28 +595,32 @@ public class Toys extends javax.swing.JFrame {
                 if (tmp.equals("jfrAdd")) {
                     jfrAdd = null;
                     jToggleButton1.setSelected(false);
+                    jLabel1.setText("Ready");
+                    jProgressBar1.setValue(0);
                 } else if(tmp.equals("jfrView")) {
                     jfrView = null;
                     jToggleButton2.setSelected(false);
+                    jLabel1.setText("Ready");
+                    jProgressBar1.setValue(0);
                 } else if(tmp.equals("jfrSearch")) {
                     jfrSearch = null;
                     jToggleButton3.setSelected(false);
+                    jLabel1.setText("Ready");
+                    jProgressBar1.setValue(0);
                 };
             };
         });
     }
     
-    private void addToyToFile(Toy toy) {        
+    private void addToyToFile(Toy newToy) {        
         try{
-            
-            jLabel1.setText("Added");
+            if(writeInDB(newToy))
+                jLabel1.setText("Added");
         } catch(Exception ex) {
             jLabel1.setText("Error");
         }
     }
 
-    private String currentDirectory;
-    private String ToysDataBase;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
