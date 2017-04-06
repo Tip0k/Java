@@ -40,6 +40,6 @@ public class AgeLimits {
     
     public static AgeLimits convertToAgeLimits(String ageLimitsStr) {
         String[] tmp = ageLimitsStr.split("-");
-        return new AgeLimits(Integer.parseInt(tmp[0]), Integer.parseInt(tmp[0]));
+        return new AgeLimits(Integer.parseInt(tmp[0]), Integer.parseInt(tmp[1]));
     }
 }
